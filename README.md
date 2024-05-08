@@ -1,3 +1,4 @@
+```python
 1)
 input a,b;
 output y1,y2,y3,y4,y5,y6,y7;
@@ -178,3 +179,4 @@ begin
      out <= out+1;
 end
 endmodule
+```
