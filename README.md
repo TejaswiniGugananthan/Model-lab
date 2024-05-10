@@ -1,4 +1,4 @@
-```python
+```
 
 1)
 import networkx as nx
