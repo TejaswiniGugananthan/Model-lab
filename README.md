@@ -1,134 +1,109 @@
 ```python
-1a
-import pandas as pd import numpy as np
-df = pd.read_csv('your_dataset.csv')
-print(df.head())
-print(df.describe())
-print(df.info())
-df.dropna(inplace=True)
-df.fillna(0, inplace=True)
-df.fillna(df.mean(), inplace=True)
-df.drop_duplicates(inplace=True)
-df['column_name'] = df['column_name'].astype(int)
-df['date_column'] = pd.to_datetime(df['date_column'])
+1.CONVERSIONS_OF-IMAGE:
+i) Read and display the image:
+ import cv2
+ image=cv2.imread('flower.png',1)
+ image=cv2.resize(image,(200,200))
+ cv2.imshow('Tejaswini',image)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+ii)  Write the image:
+ import cv2
+ image=cv2.imread('flower.png',0)
+ cv2.imwrite('demos.png',image)
+iii) Shape of the Image:
+ import cv2
+ image=cv2.imread('flower.png',1)
+ print(image.shape)
+iv)Access rows and columns:
+ import random
+ import cv2
+ image=cv2.imread('flower.png',1)
+ image=cv2.resize(image,(500,500))
+ for i in range (250,500):
+ for j in range(image.shape[1]):
+        image[i][j]=[random.randint(0,255),
+                     random.randint(0,255),
+                     random.randint(0,255)] 
+ cv2.imshow('part image',image)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+v)Cut and paste portion of image:
+ import cv2
+ image=cv2.imread('flower.png',1)
+ image=cv2.resize(image,(300,300))
+ tag =image[150:200,110:160]
+ image[110:160,150:200] = tag
+ cv2.imshow('image1',image)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+vi) BGR and RGB to HSV and GRAY
+ import cv2
+ img = cv2.imread('flower.png',1)
+ img = cv2.resize(img,(200,200))
+ cv2.imshow('Original Image',img)
+ hsv1 = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+ cv2.imshow('BGR2HSV',hsv1)
+ hsv2 = cv2.cvtColor(img,cv2.COLOR_RGB2HSV)
+ cv2.imshow('RGB2HSV',hsv2)
+ gray1 = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+ cv2.imshow('BGR2GRAY',gray1)
+ gray2 = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
+ cv2.imshow('RGB2GRAY',gray2)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+vii) HSV to RGB and BGR
+ import cv2
+ img = cv2.imread('flower.png')
+ img = cv2.resize(img,(200,200))
+ img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
+ cv2.imshow('Original HSV Image',img)
+ RGB = cv2.cvtColor(img,cv2.COLOR_HSV2RGB)
+ cv2.imshow('2HSV2BGR',RGB)
+ BGR = cv2.cvtColor(img,cv2.COLOR_HSV2BGR)
+ cv2.imshow('HSV2RGB',BGR)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+viii) RGB and BGR to YCrCb
+ import cv2
+ img = cv2.imread('flower.png')
+ img = cv2.resize(img,(200,200))
+ cv2.imshow('Original RGB Image',img)
+ YCrCb1 = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
+ cv2.imshow('RGB-2-YCrCb',YCrCb1)
+ YCrCb2 = cv2.cvtColor(img, cv2.COLOR_RGB2YCrCb)
+ cv2.imshow('BGR-2-YCrCb',YCrCb2)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+ix) Split and merge RGB Image
+ import cv2
+ img = cv2.imread('flower.png',1)
+ img = cv2.resize(img,(200,200))
+ R = img[:,:,2]
+ G = img[:,:,1]
+ B = img[:,:,0]
+ cv2.imshow('R-Channel',R)
+ cv2.imshow('G-Channel',G)
+ cv2.imshow('B-Channel',B)
+ merged = cv2.merge((B,G,R))
+ cv2.imshow('Merged RGB image',merged)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
+x) Split and merge HSV Image
+ import cv2
+ img = cv2.imread("flower.png",1)
+ img = cv2.resize(img,(200,200))
+ img=cv2.cvtColor(img,cv2.COLOR_RGB2HSV)
+ H,S,V=cv2.split(img)
+ cv2.imshow('Hue',H)
+ cv2.imshow('Saturation',S)
+ cv2.imshow('Value',V)
+ merged = cv2.merge((H,S,V))
+ cv2.imshow('Merged',merged)
+ cv2.waitKey(0)
+ cv2.destroyAllWindows()
 
-2a
-import pandas as pd
- df = pd.read_csv('your_data.csv') 
-print(df.head()) print(df.describe()) print(df.info())
-import matplotlib.pyplot as plt import seaborn as sns
-sns.boxplot(data=df)
-plt.show()
-sns.scatterplot(x='feature1', y='feature2', data=df)
-plt.show()
-df.hist(bins=50, figsize=(20, 15)) plt.show()
-from scipy import stats 
-z_scores=stats.zscore(df.select_dtypes(include=[np.number])) abs_z_scores = np.abs(z_scores)
-threshold = 3 outliers = (abs_z_scores > threshold).all(axis=1)
-outlier_indices = np.where(outliers)[0] print("Outliers detected:",
-outlier_indices)
-Q1 = df.quantile(0.25) Q3 = df.quantile(0.75) IQR = Q3 - Q1
-lower_bound = Q1 - 1.5 * IQR upper_bound = Q3 + 1.5 * IQR
-outliers = ((df < lower_bound) | (df > upper_bound)).any(axis=1)
-outlier_indices = df.index[outliers] print("Outliers detected:", outlier_indices)
-df_cleaned = df.drop(outlier_indices) print(df_cleaned.describe())
-sns.boxplot(data=df_cleaned) plt.show() sns.scatterplot(x='feature1',
-y='feature2', data=df_cleaned) plt.show() df_cleaned.hist(bins=50, figsize=(20, 15))
-plt.show()
 
 
-5a
-import pandas as pd 
- data = { 'Category': ['A', 'B', 'A', 'C', 'B', 'A'],
-'Color': ['Red', 'Blue', 'Green', 'Blue', 'Red', 'Green'], 'Target': [1, 0, 1, 1, 0,
-1] } df = pd.DataFrame(data) print(df)
-from sklearn.preprocessing import LabelEncoder 
-label_encoder = LabelEncoder()
-df['Category_LabelEncoded'] = label_encoder.fit_transform(df['Category']) print(df)
-df_one_hot_encoded = pd.get_dummies(df, columns=
-['Color'], prefix='Color') print(df_one_hot_encoded)
-from category_encoders import TargetEncoder
-target_encoder = TargetEncoder()
-df['Category_TargetEncoded'] = target_encoder.fit_transform(df['Category'],
-df['Target']) print(df)
-print(df[['Category', 'Category_LabelEncoded',
-'Category_TargetEncoded', 'Color', 'Color_Blue', 'Color_Green', 'Color_Red',
-'Target']])
-import pandas as pd from sklearn.preprocessing import LabelEncoder from
-category_encoders import TargetEncoder # Sample data data = { 'Category': ['A', 'B',
-'A', 'C', 'B', 'A'], 'Color': ['Red', 'Blue', 'Green', 'Blue', 'Red', 'Green'],
-'Target': [1, 0, 1, 1, 0, 1] } df = pd.DataFrame(data) print("Original DataFrame:")
-print(df) # Label Encoding label_encoder = LabelEncoder() df['Category_LabelEncoded']
-= label_encoder.fit_transform(df['Category']) print("\nLabel Encoded DataFrame:")
-print(df) # One-Hot Encoding df_one_hot_encoded = pd.get_dummies(df, columns=
-['Color'], prefix='Color') print("\nOne-Hot Encoded DataFrame:")
-print(df_one_hot_encoded) # Target Encoding target_encoder = TargetEncoder()
-df['Category_TargetEncoded'] = target_encoder.fit_transform(df['Category'],
-df['Target']) print("\nTarget Encoded DataFrame:") print(df[['Category',
-'Category_LabelEncoded', 'Category_TargetEncoded', 'Color', 'Color_Blue',
-'Color_Green', 'Color_Red', 'Target']])
-
-
-6a
-import pandas as pd data = { 'Feature1': [10, 20, 30, 40, 50],
-'Feature2': [100, 150, 200, 250, 300] } df = pd.DataFrame(data) print("Original
-DataFrame:") print(df)
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler() 
-df_standardized=pd.DataFrame(scaler.fit_transform(df), columns=df.columns) print("\nStandardized
-DataFrame:") print(df_standardized)
-from sklearn.preprocessing import MinMaxScaler
-min_max_scaler = MinMaxScaler() df_min_max_scaled=
-pd.DataFrame(min_max_scaler.fit_transform(df), columns=df.columns) print("\nMin-Max
-Scaled DataFrame:") print(df_min_max_scaled)
-from sklearn.preprocessing import RobustScaler
-robust_scaler = RobustScaler() df_robust_scaled =
-pd.DataFrame(robust_scaler.fit_transform(df), columns=df.columns) print("\nRobust
-Scaled DataFrame:") print(df_robust_scaled)
-import pandas as pd from sklearn.preprocessing import StandardScaler, MinMaxScaler,
-RobustScaler  data = { 'Feature1': [10, 20, 30, 40, 50], 'Feature2':
-[100, 150, 200, 250, 300] } df = pd.DataFrame(data) print("Original DataFrame:")
-print(df) (Z-score Normalization) scaler = StandardScaler()
-df_standardized = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
-print("\nStandardized DataFrame:") print(df_standardized)
-min_max_scaler = MinMaxScaler() df_min_max_scaled =
-pd.DataFrame(min_max_scaler.fit_transform(df), columns=df.columns) print("\nMin-Max
-Scaled DataFrame:") print(df_min_max_scaled) robust_scaler =
-RobustScaler() df_robust_scaled = pd.DataFrame(robust_scaler.fit_transform(df),
-columns=df.columns) print("\nRobust Scaled DataFrame:") print(df_robust_scaled)
-
-
-7a
-import pandas as pd import numpy as np 
-data = { 'Feature1': [1, 2, 3, 4,
-5], 'Feature2': [10, 20, 30, 40, 50] } df = pd.DataFrame(data) print("Original
-DataFrame:") print(df)
-df_log_transformed = df.copy()
-df_log_transformed['Feature1'] = np.log1p(df['Feature1'])
-df_log_transformed['Feature2'] = np.log1p(df['Feature2']) print("\nLog
-Transformed DataFrame:") print(df_log_transformed)
-from sklearn.preprocessing import PolynomialFeatures
-poly = PolynomialFeatures(degree=2, include_bias=False
-df_poly = poly.fit_transform(df) df_poly =
-pd.DataFrame(df_poly, columns=poly.get_feature_names_out(df.columns))
-print("\nPolynomial Features DataFrame:") print(df_poly)
-from scipy.stats import boxcox
-df_boxcox_transformed = df.copy() df_boxcox_transformed['Feature1'], _ =
-boxcox(df['Feature1'] + 1)
-df_boxcox_transformed['Feature2'], _ = boxcox(df['Feature2'] + 1) print("\nBox-Cox
-Transformed DataFrame:") print(df_boxcox_transformed)
-import pandas as pd import numpy as np from sklearn.preprocessing import
-PolynomialFeatures from scipy.stats import boxcox data = { 'Feature1':
-[1, 2, 3, 4, 5], 'Feature2': [10, 20, 30, 40, 50] } df = pd.DataFrame(data)
-print("Original DataFrame:") print(df) df_log_transformed =
-df.copy() df_log_transformed['Feature1'] = np.log1p(df['Feature1'])
-df_log_transformed['Feature2'] = np.log1p(df['Feature2']) print("\nLog Transformed
-DataFrame:") print(df_log_transformed) poly =
-PolynomialFeatures(degree=2, include_bias=False) df_poly = poly.fit_transform(df)
-df_poly = pd.DataFrame(df_poly, columns=poly.get_feature_names_out(df.columns))
-print("\nPolynomial Features DataFrame:") print(df_poly)
-df_boxcox_transformed = df.copy() df_boxcox_transformed['Feature1'], _ =
-boxcox(df['Feature1'] + 1) df_boxcox_transformed['Feature2'], _ =
-boxcox(df['Feature2'] + 1) print("\nBox-Cox Transformed DataFrame:")
-print(df_boxcox_transformed)
 ```
+
