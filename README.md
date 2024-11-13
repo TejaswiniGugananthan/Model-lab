@@ -1,610 +1,356 @@
 ```python
-1.CONVERSIONS_OF-IMAGE:
-i) Read and display the image:
- import cv2
- image=cv2.imread('flower.png',1)
- image=cv2.resize(image,(200,200))
- cv2.imshow('Tejaswini',image)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-ii)  Write the image:
- import cv2
- image=cv2.imread('flower.png',0)
- cv2.imwrite('demos.png',image)
-iii) Shape of the Image:
- import cv2
- image=cv2.imread('flower.png',1)
- print(image.shape)
-iv)Access rows and columns:
- import random
- import cv2
- image=cv2.imread('flower.png',1)
- image=cv2.resize(image,(500,500))
- for i in range (250,500):
- for j in range(image.shape[1]):
-        image[i][j]=[random.randint(0,255),
-                     random.randint(0,255),
-                     random.randint(0,255)] 
- cv2.imshow('part image',image)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-v)Cut and paste portion of image:
- import cv2
- image=cv2.imread('flower.png',1)
- image=cv2.resize(image,(300,300))
- tag =image[150:200,110:160]
- image[110:160,150:200] = tag
- cv2.imshow('image1',image)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-vi) BGR and RGB to HSV and GRAY
- import cv2
- img = cv2.imread('flower.png',1)
- img = cv2.resize(img,(200,200))
- cv2.imshow('Original Image',img)
- hsv1 = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
- cv2.imshow('BGR2HSV',hsv1)
- hsv2 = cv2.cvtColor(img,cv2.COLOR_RGB2HSV)
- cv2.imshow('RGB2HSV',hsv2)
- gray1 = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
- cv2.imshow('BGR2GRAY',gray1)
- gray2 = cv2.cvtColor(img,cv2.COLOR_RGB2GRAY)
- cv2.imshow('RGB2GRAY',gray2)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-vii) HSV to RGB and BGR
- import cv2
- img = cv2.imread('flower.png')
- img = cv2.resize(img,(200,200))
- img = cv2.cvtColor(img,cv2.COLOR_BGR2HSV)
- cv2.imshow('Original HSV Image',img)
- RGB = cv2.cvtColor(img,cv2.COLOR_HSV2RGB)
- cv2.imshow('2HSV2BGR',RGB)
- BGR = cv2.cvtColor(img,cv2.COLOR_HSV2BGR)
- cv2.imshow('HSV2RGB',BGR)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-viii) RGB and BGR to YCrCb
- import cv2
- img = cv2.imread('flower.png')
- img = cv2.resize(img,(200,200))
- cv2.imshow('Original RGB Image',img)
- YCrCb1 = cv2.cvtColor(img, cv2.COLOR_BGR2YCrCb)
- cv2.imshow('RGB-2-YCrCb',YCrCb1)
- YCrCb2 = cv2.cvtColor(img, cv2.COLOR_RGB2YCrCb)
- cv2.imshow('BGR-2-YCrCb',YCrCb2)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-ix) Split and merge RGB Image
- import cv2
- img = cv2.imread('flower.png',1)
- img = cv2.resize(img,(200,200))
- R = img[:,:,2]
- G = img[:,:,1]
- B = img[:,:,0]
- cv2.imshow('R-Channel',R)
- cv2.imshow('G-Channel',G)
- cv2.imshow('B-Channel',B)
- merged = cv2.merge((B,G,R))
- cv2.imshow('Merged RGB image',merged)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-x) Split and merge HSV Image
- import cv2
- img = cv2.imread("flower.png",1)
- img = cv2.resize(img,(200,200))
- img=cv2.cvtColor(img,cv2.COLOR_RGB2HSV)
- H,S,V=cv2.split(img)
- cv2.imshow('Hue',H)
- cv2.imshow('Saturation',S)
- cv2.imshow('Value',V)
- merged = cv2.merge((H,S,V))
- cv2.imshow('Merged',merged)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
+1. Introduction Kaggle and Data preprocessing
 
-2.Web camera:
-i) Write the frame as JPG file :
- import cv2
- videoCaptureObject = cv2.VideoCapture(0)
- while (True):
-    ret,frame = videoCaptureObject.read()
-    cv2.imwrite("sample.jpeg",frame)
-    result = False
- videoCaptureObject.release()
- cv2.destroyAllWindows()
-ii) Display the video :
- import cv2
- videoCaptureObject = cv2.VideoCapture(0)
- while(True):
-    ret,frame = videoCaptureObject.read()
-    cv2.imshow('myimage',frame)
-    if cv2.waitKey(1) == ord('q'):
-        break
- videoCaptureObject.release()
- cv2.destroyAllWindows()
-iii) Display the video by resizing the window
- import cv2
- import numpy as np
- cap = cv2.VideoCapture(0)
- while True:
-    ret, frame = cap.read() 
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    image = np.zeros(frame.shape, np.uint8) 
-    smaller_frame = cv2.resize(frame, (0,0), fx = 0.5, fy=0.5) 
-    image[:height//2, :width//2] = smaller_frame
-    image[height//2:, :width//2] = smaller_frame
-    image[:height//2, width//2:] = smaller_frame 
-    image [height//2:, width//2:] = smaller_frame
-    cv2.imshow('myimage', image)
-    if cv2.waitKey(1) == ord('q'):
-        break
- cap.release()
- cv2.destroyAllWindows()
-iv) Rotate and display the video
- import cv2
- import numpy as np
- cap = cv2.VideoCapture(0)
- while True:
-    ret, frame = cap.read() 
-    width = int(cap.get(3))
-    height = int(cap.get(4))
-    image = np.zeros(frame.shape, np.uint8) 
-    smaller_frame = cv2.resize(frame, (0,0), fx = 0.5, fy=0.5) 
-    image[:height//2, :width//2] = cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[height//2:, :width//2] = cv2.rotate(smaller_frame,cv2.ROTATE_180)
-    image[:height//2, width//2:] = smaller_frame 
-    image [height//2:, width//2:] = smaller_frame
-    cv2.imshow('myimage', image)
-    if cv2.waitKey(1) == ord('q'):
-        break
- cap.release()
- cv2.destroyAllWindows()
+import pandas as pd
+import io
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+df=pd.read_csv("/content/Churn_Modelling.csv", index_col="RowNumber")
+df
+df.drop(['CustomerId'],axis=1,inplace=True)
+df.drop(['Surname'],axis=1,inplace=True)
+df.drop('Age',axis=1,inplace=True)
+df.drop('Geography',axis=1,inplace=True)
+df.drop('Gender',axis=1,inplace=True)
+df
+df.isnull().sum()
+df.duplicated()
+df.describe()
+scaler=StandardScaler()
+df1=pd.DataFrame(scaler.fit_transform(df))
+df1
+x=df1.iloc[:,:-1].values
+x
+y=df1.iloc[:,-1].values
+y
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2)
+print(x_train)
+print(len(x_train))
+print(x_test)
+print(len(x_test))
 
+2. Implementation of Perceptron for Binary Classification
 
-3. Histogram:
-i) Input Grayscale Image and Color Image:
- import cv2
- import matplotlib.pyplot as plt
- import numpy as np
- gray_image = cv2.imread("flower.png")
- color_image = cv2.imread("flower 1.png",-1)
- cv2.imshow("Gray Image",gray_image)
- cv2.imshow("Colour Image",color_image)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
-ii)Histogram of Grayscale Image and any channel of Color Image:
- Gray_image = cv2.imread("flower.png")
- Color_image = cv2.imread("flower 1.png")
- gray_hist = cv2.calcHist([Gray_image],[0],None,[256],[0,256])
- color_hist = cv2.calcHist([Color_image],[0],None,[256],[0,256])
- plt.figure()
- plt.imshow(Gray_image)
- plt.show()
- plt.title("Histogram")
- plt.xlabel("Grayscale Value")
- plt.ylabel("Pixel Count")
- plt.stem(gray_hist)
- plt.show()
- plt.imshow(Color_image)
- plt.show()
- plt.title("Histogram of Color Image - Green Channel")
- plt.xlabel("Intensity Value")
- plt.ylabel("Pixel Count")
- plt.stem(color_hist)
- plt.show()
- cv2.waitKey(0)
-iii)Histogram Equalization of Grayscale Image:
- gray_image = cv2.imread("flower.png",0)
- cv2.imshow('Grey Scale Image',gray_image)
- equ = cv2.equalizeHist(gray_image)
- cv2.imshow("Equalized Image",equ)
- cv2.waitKey(0)
- cv2.destroyAllWindows()
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from mpl_toolkits import mplot3d
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
-4. IMAGE-TRANSFORMATIONS:
-i)Image Translation:
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- input_image=cv2.imread("vijay.png")
- input_image=cv2.cvtColor(input_image, cv2.COLOR_BGR2RGB)
- plt.axis('off')
- plt.imshow(input_image)
- plt.show()
- rows,cols,dim=input_image.shape
- M=np.float32([[1,0,50],  [0,1,100],  [0,0,1]])
- translated_image=cv2.warpPerspective(input_image,M,(cols,rows))
- plt.axis('off')
- plt.imshow(translated_image)
- plt.show()
-ii) Image Scaling:
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- org_image = cv2.imread("vijay.png")
- org_image = cv2.cvtColor(org_image,cv2.COLOR_BGR2RGB)
- plt.imshow(org_image)
- plt.show()
- rows,cols,dim = org_image.shape
- M = np.float32([[1.5,0,0],[0,1.7,0],[0,0,1]])
- scaled_img = cv2.warpPerspective(org_image,M,(cols*2,rows*2))
- plt.imshow(org_image)
- plt.show()
-iii)Image shearing:
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- org_image = cv2.imread("vijay.png")
- org_image = cv2.cvtColor(org_image,cv2.COLOR_BGR2RGB)
- plt.imshow(org_image)
- plt.show()
- rows,cols,dim = org_image.shape
- M_X = np.float32([[1,0.5,0],[0,1,0],[0,0,1]])
- M_Y = np.float32([[1,0,0],[0.5,1,0],[0,0,1]])
- sheared_img_xaxis = cv2.warpPerspective(org_image,M_X,(int(cols*1.5),int(rows*1.5)))
- sheared_img_yaxis = cv2.warpPerspective(org_image,M_Y,(int(cols*1.5),int(rows*1.5)))
- plt.imshow(sheared_img_xaxis)
- plt.show()
- plt.imshow(sheared_img_yaxis)
- plt.show()
-iv)Image Reflection
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- org_image = cv2.imread("vijay.png")
- org_image = cv2.cvtColor(org_image,cv2.COLOR_BGR2RGB)
- plt.imshow(org_image)
- plt.show()
- rows,cols,dim = org_image.shape
- M_X = np.float32([[1,0,0],[0,-1,rows],[0,0,1]])
- M_Y = np.float32([[-1,0,cols],[0,1,0],[0,0,1]])
- reflected_img_xaxis = cv2.warpPerspective(org_image,M_X,(int(cols),int(rows)))
- reflected_img_yaxis = cv2.warpPerspective(org_image,M_Y,(int(cols),int(rows)))
- plt.imshow(reflected_img_xaxis)
- plt.show()
- plt.imshow(reflected_img_yaxis)
- plt.show()
-v)Image Rotation
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- input_image = cv2.imread("vijay.png")
- input_image = cv2.cvtColor(input_image,cv2.COLOR_BGR2RGB)
- plt.axis('off')
- plt.imshow(input_image)
- plt.show()
- angle=np.radians(10)
- M=np.float32([[np.cos(angle),-(np.sin(angle)),0],[np.sin(angle),np.cos(angle),0],[0,0,
- rotated_img = cv2.warpPerspective(input_image,M,(int(cols),int(rows)))
- plt.imshow(rotated_img)
- plt.show()
-vi)Image Cropping
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- org_image = cv2.imread("vijay.png")
- org_image = cv2.cvtColor(org_image,cv2.COLOR_BGR2RGB)
- plt.imshow(org_image)
- plt.show()
- rows,cols,dim = org_image.shape
- cropped_img=org_image[80:900,80:500]
- plt.imshow(cropped_img)
- plt.show()
+class Perceptron:
+  def __init__(self,learning_rate=0.1):
+    self.learning_rate = learning_rate
+    self._b = 0.0
+    self._w = None
+    self.misclassified_samples = []
+  def fit(self, x: np.array, y: np.array, n_iter=10):
+    self._b = 0.0
+    self._w = np.zeros(x.shape[1])
+    self.misclassified_samples = []
+    for _ in range(n_iter):
+      errors = 0
+      for xi, yi in zip(x, y):
+        update = self.learning_rate * (yi - self.predict(xi))
+        self._b += update
+        self._w += update * xi
+        errors += int(update != 0.0)
+      self.misclassified_samples.append(errors)
 
-5.Implementation-of-filter:
-1. Smoothing Filters
- i) Using Averaging Filter
- import cv2
- import numpy as np
- import matplotlib.pyplot as plt
- image1 = cv2.imread('flower.png')
- image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
- kernel = np.ones((11,11), np. float32)/121
- image3 = cv2.filter2D(image2, -1, kernel)
- plt.figure(figsize=(9,9))
- plt.subplot(1,2,1)
- plt.imshow(image2)
- plt.title('Orignal')
- plt.axis('off')
- plt.subplot(1,2,2)
- plt.imshow(image3)
- plt.title('Filtered')
- plt.axis('off')
- ii) Using Weighted Averaging Filter
- import cv2
- import numpy as np
- import matplotlib.pyplot as plt
- image1 = cv2.imread('flower.png')
- image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
- kernel2 = np.array([[1,2,1],[2,4,2],[1,2,1]])/16
- image4 = cv2.filter2D(image2, -1, kernel2)
- plt.imshow(image4)
- plt.title('Weighted Averaging Filtered')
-iii) Using Gaussian Filter
- import cv2
- import numpy as np
- import matplotlib.pyplot as plt
- image1 = cv2.imread('flower.png')
- image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
- gaussian_blur = cv2.GaussianBlur(src=image2, ksize=(11,11), sigmaX=0, sigmaY=0)
- plt.imshow(gaussian_blur)
- plt.title(' Gaussian Blurring Filtered')
- iv) Using Median Filter
- import cv2
- import numpy as np
- import matplotlib.pyplot as plt
- image1 = cv2.imread('flower.png')
- image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
- median=cv2.medianBlur (src=image2, ksize=11)
- plt.imshow(median)
- plt.title(' Median Blurring Filtered')
- 2. Sharpening Filters
- i) Using Laplacian Kernal
- import cv2
- import numpy as np
- import matplotlib.pyplot as plt
- image1 = cv2.imread('flower.png')
- image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
- kernel3 = np.array([[0,1,0], [1, -4,1],[0,1,0]])
- image5 =cv2.filter2D(image2, -1, kernel3)
- plt.imshow(image5)
- plt.title('Laplacian Kernel')
- ii) Using Laplacian Operator
-import cv2
- import numpy as np
- import matplotlib.pyplot as plt
- image1 = cv2.imread('flower.png')
- image2 = cv2.cvtColor(image1, cv2.COLOR_BGR2RGB)
- new_image = cv2.Laplacian (image2, cv2.CV_64F)
- plt.imshow(new_image)
- plt.title('Laplacian Operator')
+  def f(self, x: np.array) -> float:
+  return np.dot(x, self._w) + self._b
 
-6.EDGE-DETECTION:
- import cv2
- import matplotlib.pyplot as plt
- img=cv2.imread("bouq.png",0)
- gray=cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
- gray = cv2.GaussianBlur(gray,(3,3),0)
+  def predict(self, x: np.array):
+  return np.where(self.f(x) >= 0, 1, -1)
 
-SOBEL EDGE DETECTOR
- i) SOBEL X AXIS
- sobelx = cv2.Sobel(gray,cv2.CV_64F,1,0,ksize=5)
- plt.figure(figsize=(8,8))
- plt.subplot(1,2,1)
- plt.imshow(gray)
- plt.title("Original Image")
- plt.axis("off")
- plt.subplot(1,2,2)
- plt.imshow(sobelx)
- plt.title("Sobel X axis")
- plt.axis("off")
- plt.show()
- ii) SOBEL Y AXIS
- sobely = cv2.Sobel(gray,cv2.CV_64F,0,1,ksize=5)
- plt.figure(figsize=(8,8))
- plt.subplot(1,2,1)
- plt.imshow(gray)
- plt.title("Original Image")
- plt.axis("off")
- plt.subplot(1,2,2)
- plt.imshow(sobely)
- plt.title("Sobel Y axis")
- plt.axis("off")
- plt.show()
- iii) SOBEL XY AXIS
- sobelxy = cv2.Sobel(gray,cv2.CV_64F,1,1,ksize=5)
- plt.figure(figsize=(8,8))
- plt.subplot(1,2,1)
- plt.imshow(gray)
- plt.title("Original Image")
- plt.axis("off")
- plt.subplot(1,2,2)
- plt.imshow(sobelxy)
- plt.title("Sobel XY axis")
- plt.axis("off")
- plt.show()
-LAPLACIAN EDGE DETECTOR
- lap=cv2.Laplacian(gray,cv2.CV_64F)
- plt.figure(figsize=(8,8))
- plt.subplot(1,2,1)
- plt.imshow(gray)
- plt.title("Original Image")
- plt.axis("off")
- plt.subplot(1,2,2)
- plt.imshow(lap)
- plt.title("Laplacian Edge Detector")
- plt.axis("off")
- plt.show()
- CANNY EDGE DETECTOR
- canny=cv2.Canny(gray,120,150)
- plt.figure(figsize=(8,8))
- plt.subplot(1,2,1)
- plt.imshow(gray)
- plt.title("Original Image")
- plt.axis("off")
- plt.subplot(1,2,2)
- plt.imshow(canny)
- plt.title("Canny Edge Detector")
- plt.axis("off")
- plt.show()
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+df = pd.read_csv(url, header=None)
+print(df.head())
 
-7.Edge-Linking-using-Hough-Transformm:
-i)Input image and grayscale image
- import numpy as np
- import cv2
- import matplotlib.pyplot as plt
- img=cv2.imread("duke.png",0)
- img_c=cv2.imread("duke.png",1)
- img_c=cv2.cvtColor(img_c,cv2.COLOR_BGR2RGB)
- gray=cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
- gray = cv2.GaussianBlur(gray,(3,3),0)
- plt.figure(figsize=(13,13))
- plt.subplot(1,2,1)
- plt.imshow(img_c)
- plt.title("Original Image")
- plt.axis("off")
- plt.subplot(1,2,2)
- plt.imshow(gray)
- plt.title("Gray Image")
- plt.axis("off")
- plt.show()
-ii) Canny Edge detector 
- canny=cv2.Canny(gray,120,150)
- plt.imshow(canny)
- plt.title("Canny Edge Detector")
- plt.axis("off")
- plt.show()
-iii) Detect points that form a line using HoughLinesP
- lines=cv2.HoughLinesP(canny,1,np.pi/180,threshold=80,minLineLength=50,maxLineGap=250)
-iv) Draw lines on the image
-for line in lines:
-    x1,y1,x2,y2=line[0]
-    cv2.line(img_c,(x1,y1),(x2,y2),(255,0,0),3)
-Display the result of Hough transform
-plt.imshow(img_c)
-plt.title("Result Image")
-plt.axis("off")
+y = df.iloc[:, 4].values
+x = df.iloc[:, 0:3].values
+
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+ax.set_title('Iris data set')
+ax.set_xlabel("Sepal length in width (cm)")
+ax.set_ylabel("Sepal width in width (cm)")
+ax.set_zlabel("Petal length in width (cm)")
+
+ax.scatter(x[:50, 0], x[:50, 1], x[:50, 2], color='red',
+         marker='o', s=4, edgecolor='red', label="Iris Setosa")
+ax.scatter(x[50:100, 0], x[50:100, 1], x[50:100, 2], color='blue',
+         marker='^', s=4, edgecolor='blue', label="Iris Versicolour")
+ax.scatter(x[100:150, 0], x[100:150, 1], x[100:150, 2], color='green',
+         marker='x', s=4, edgecolor='green', label="Iris Virginica")
+plt.legend(loc='upper left')
 plt.show()
 
-8.THRESHOLDING
-i) Load the necessary packages:
+x = x[0:100, 0:2] 
+y = y[0:100]
+
+plt.scatter(x[:50, 0], x[:50, 1], color='red', marker='o', label='Setosa')
+plt.scatter(x[50:100, 0], x[50:100, 1], color='blue', marker='x',
+          label='Versicolour')
+plt.xlabel("Sepal length")
+plt.ylabel("Petal length")
+plt.legend(loc='upper left')
+plt.show()
+
+y = np.where(y == 'Iris-setosa', 1, -1)
+x[:, 0] = (x[:, 0] - x[:, 0].mean()) / x[:, 0].std()
+x[:, 1] = (x[:, 1] - x[:, 1].mean()) / x[:, 1].std()
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25,random_state=0)
+
+classifier = Perceptron(learning_rate=0.01)
+classifier.fit(x_train, y_train)
+print("accuracy", accuracy_score(classifier.predict(x_test), y_test)*100)
+
+plt.plot(range(1, len(classifier.misclassified_samples) + 1),classifier.misclassified_samples, marker='o')
+plt.xlabel('Epoch')
+plt.ylabel('Errors')
+plt.show()
+
+3. Implementation of MLP for a non-linearly separable data
+
 import numpy as np
+import pandas as pd
+import io
 import matplotlib.pyplot as plt
-import cv2
 
-ii) Read the Image and convert to grayscale
-image = cv2.imread("nature.png",1)
-image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
-image_gray = cv2.imread("nature.png",0)
+x=np.array([[0,0,1,1],[0,1,0,1]])
+y=np.array([[0,1,1,0]])
+n_x = 2
+n_y = 1
+n_h = 2
+m = x.shape[1]
+lr = 0.1
+np.random.seed(2)
+w1 = np.random.rand(n_h,n_x)  
+w2 = np.random.rand(n_y,n_h)   
+losses = []
 
-iii) Use Global thresholding to segment the image
-ret,thresh_img1=cv2.threshold(image_gray,86,255,cv2.THRESH_BINARY)
-ret,thresh_img2=cv2.threshold(image_gray,86,255,cv2.THRESH_BINARY_INV)
-ret,thresh_img3=cv2.threshold(image_gray,86,255,cv2.THRESH_TOZERO)
-ret,thresh_img4=cv2.threshold(image_gray,86,255,cv2.THRESH_TOZERO_INV)
-ret,thresh_img5=cv2.threshold(image_gray,100,255,cv2.THRESH_TRUNC)
+def sigmoid(z):
+    z= 1/(1+np.exp(-z))
+    return z
+def forward_prop(w1,w2,x):
+    z1 = np.dot(w1,x)
+    a1 = sigmoid(z1)
+    z2 = np.dot(w2,a1)
+    a2 = sigmoid(z2)
+    return z1,a1,z2,a2
+def back_prop(m,w1,w2,z1,a1,z2,a2,y):
+  dz2 = a2-y
+  dw2 = np.dot(dz2,a1.T)/m
+  dz1 = np.dot(w2.T,dz2) * a1*(1-a1)
+  dw1 = np.dot(dz1,x.T)/m
+  dw1 = np.reshape(dw1,w1.shape)
+  dw2 = np.reshape(dw2,w2.shape)
+  return dz2,dw2,dz1,dw1
 
-iv) Use Adaptive thresholding to segment the image
-thresh_img7=cv2.adaptiveThreshold(image_gray,255,cv2.ADAPTIVE_THRESH_MEAN_C,cv2.THRESH_BINARY,11,2)
-thresh_img8=cv2.adaptiveThreshold(image_gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,11,2)
-v) Use Otsu's method to segment the image
-ret,thresh_img6=cv2.threshold(image_gray,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
- vi) Display the results
-titles=["Gray Image","Threshold Image (Binary)","Threshold Image (Binary Inverse)","Threshold Image (To Zero)"
-       ,"Threshold Image (To Zero-Inverse)","Threshold Image (Truncate)","Otsu","Adaptive Threshold (Mean)","Adaptive Threshold (Gaussian)"]
-images=[image_gray,thresh_img1,thresh_img2,thresh_img3,thresh_img4,thresh_img5,thresh_img6,thresh_img7,thresh_img8]
-for i in range(0,9):
-    plt.figure(figsize=(10,10))
-    plt.subplot(1,2,1)
-    plt.title("Original Image")
-    plt.imshow(image)
-    plt.axis("off")
-    plt.subplot(1,2,2)
-    plt.title(titles[i])
-    plt.imshow(cv2.cvtColor(images[i],cv2.COLOR_BGR2RGB))
-    plt.axis("off")
-    plt.show()
+iterations = 10000
+for i in range(iterations):
+    z1,a1,z2,a2 = forward_prop(w1,w2,x)
+    loss = -(1/m)*np.sum(y*np.log(a2)+(1-y)*np.log(1-a2))
+    losses.append(loss)
+    da2,dw2,dz1,dw1 = back_prop(m,w1,w2,z1,a1,z2,a2,y)
+    w2 = w2-lr*dw2
+    w1 = w1-lr*dw1
 
-9. EROSION AND DILATION:
-import numpy as np
-import cv2
-import matplotlib.pyplot as plt
-i) Create the Text using cv2.putText
-img = np.zeros((100,400),dtype = 'uint8')
-font = cv2.FONT_HERSHEY_SIMPLEX
-cv2.putText(img ,'CUTE',(60,70),font,2,(255),5,cv2.LINE_AA)
-plt.imshow(img)
-plt.axis('off')
+plt.plot(losses)
+plt.xlabel("EPOCHS")
+plt.ylabel("Loss value")
 
-ii) Create the structuring element
-kernel = np.ones((5,5),np.uint8)
-kernel1 = cv2.getStructuringElement(cv2.MORPH_CROSS,(5,5))
-cv2.erode(img,kernel)
-
-iii) Erode the image
-img_erode = cv2.erode(img,kernel1)
-plt.imshow(img_erode)
-plt.axis('off')
-
-iv) Dilate the image
-img_dilate = cv2.dilate(img,kernel1)
-plt.imshow(img_dilate)
-plt.axis('off')
-
-10. OPENING AND CLOSING:
-
-import cv2
-import numpy as np
-i) Create the Text using cv2.putText
-img = np.zeros((350, 1400), dtype='uint8')
-font = cv2.FONT_HERSHEY_SIMPLEX
-cv2.putText(img, 'Telecast', (15, 200), font, 5, (255), 10, cv2.LINE_AA)
-cv2.imshow('created_text', img)
-cv2.waitKey(0)
-
-ii) Create the structuring element
-struct_ele = np.ones((9, 9), np.uint8)
-Use Opening operation
-opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, struct_ele)
-cv2.imshow('Opening', opening)
-cv2.waitKey(0)
-
-iii) Use Closing Operation
-closing = cv2.morphologyEx(img, cv2.MORPH_CLOSE, struct_ele)
-cv2.imshow('Closing', closing)
-cv2.waitKey(0)
-
-11. HUFFMAN CODING:
-
-i) Get the input String
-string = 'TEJASWINI G'
-ii) Create tree nodes
-class NodeTree(object):
-    
-    def __init__(self, left=None, right=None):
-        self.left = left 
-        self.right  = right
-
-    def children(self):
-        return (self.left,self.right)
-iii) Main function to implement huffman coding
-def huffman_code_tree(node, left=True, binString=''): 
-    if type(node) is str:
-        return {node: binString}
-    (l, r) = node.children()
-    D= dict()
-    D.update(huffman_code_tree(l, True, binString + '0'))
-    D.update(huffman_code_tree(r, False, binString + '1'))
-    return D
-iv) Calculate frequency of occurrence
-freq = {}
-
-for c in string:
-    if c in freq:
-        freq[c] += 1
+def predict(w1,w2,input):
+    z1,a1,z2,a2 = forward_prop(w1,w2,test)
+    a2 = np.squeeze(a2)
+    if a2>=0.5:
+        print( [i[0] for i in input], 1)
     else:
-        freq[c] = 1
+        print( [i[0] for i in input], 0)
 
-freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
-nodes = freq
+print('Input',' Output')
+test=np.array([[1],[0]])
+predict(w1,w2,test)
+test=np.array([[1],[1]])
+predict(w1,w2,test)
+test=np.array([[0],[1]])
+predict(w1,w2,test)
+test=np.array([[0],[0]])
+predict(w1,w2,test)
 
-while len(nodes) > 1:
-    (key1, c1) = nodes[-1]
-    (key2, c2) = nodes[-2]
-    nodes = nodes[:-2]
-    node = NodeTree(key1, key2)
-    nodes.append((node, c1 + c2))
-    
-    nodes = sorted(nodes, key=lambda x: x[1],reverse=True)
+4. Implementation of MLP with Backpropagation for Multiclassification
 
-v) Print the characters and its huffmancode
-huffmanCode = huffman_code_tree (nodes[0][0])
-print('Char | Huffman code ')
-print('---------------------')
+import pandas as pd
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
-for (char, frequency) in freq:
-    print('%-4r %12s' % (char, huffmanCode[char]))
+url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'Class']
+irisdata = pd.read_csv(url, names=names)
+
+X = irisdata.iloc[:, 0:4]
+y = irisdata['Class']
+
+le = preprocessing.LabelEncoder()
+y_encoded = le.fit_transform(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y_encoded, test_size=0.20, random_state=42)
+
+scaler = StandardScaler()
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)
+X_test = scaler.transform(X_test)
+
+mlp = MLPClassifier(hidden_layer_sizes=(10, 10, 10), max_iter=1000)
+mlp.fit(X_train, y_train)
+
+predictions = mlp.predict(X_test)
+
+flower_predictions = le.inverse_transform(predictions)
+
+
+print(flower_predictions)  
+print(confusion_matrix(y_test, predictions))
+print(classification_report(y_test, predictions))
+
+5.Implementation of XOR using RBF
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+def gaussian_rbf(x, landmark, gamma=1):
+    return np.exp(-gamma * np.linalg.norm(x - landmark)**2)
+
+def end_to_end(X1, X2, ys, mu1, mu2):
+    from_1 = [gaussian_rbf(np.array([X1[i], X2[i]]), mu1) for i in range(len(X1))]
+    from_2 = [gaussian_rbf(np.array([X1[i], X2[i]]), mu2) for i in range(len(X1))]
+
+    plt.figure(figsize=(13, 5))
+
+    plt.subplot(1, 2, 1)
+    plt.scatter((X1[0], X1[3]), (X2[0], X2[3]), label="Class_0")
+    plt.scatter((X1[1], X1[2]), (X2[1], X2[2]), label="Class_1")
+    plt.xlabel("$X1$", fontsize=15)
+    plt.ylabel("$X2$", fontsize=15)
+    plt.title("Xor: Linearly Inseparable", fontsize=15)
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.scatter(from_1[0], from_2[0], label="Class_0")
+    plt.scatter(from_1[1], from_2[1], label="Class_1")
+    plt.scatter(from_1[2], from_2[2], label="Class_1")
+    plt.scatter(from_1[3], from_2[3], label="Class_0")
+    plt.plot([0, 0.95], [0.95, 0], "k--")
+    plt.annotate("Seperating hyperplane", xy=(0.4, 0.55), xytext=(0.55, 0.66),
+                arrowprops=dict(facecolor='black', shrink=0.05))
+    plt.xlabel(f"$mu1$: {(mu1)}", fontsize=15)
+    plt.ylabel(f"$mu2$: {(mu2)}", fontsize=15)
+    plt.title("Transformed Inputs: Linearly Seperable", fontsize=15)
+    plt.legend()
+
+    A = []
+    for i, j in zip(from_1, from_2):
+        temp = []
+        temp.append(i)
+        temp.append(j)
+        temp.append(1)
+        A.append(temp)
+
+    A = np.array(A)
+    W = np.linalg.inv(A.T.dot(A)).dot(A.T).dot(ys)
+    print(np.round(A.dot(W)))
+    print(ys)
+    print(f"Weights: {W}")
+    return W
+
+def predict_matrix(point, weights):
+    gaussian_rbf_0 = gaussian_rbf(point, mu1)
+    gaussian_rbf_1 = gaussian_rbf(point, mu2)
+    A = np.array([gaussian_rbf_0, gaussian_rbf_1, 1])
+    return np.round(A.dot(weights))
+
+# points
+x1 = np.array([0, 0, 1, 1])
+x2 = np.array([0, 1, 0, 1])
+ys = np.array([0, 1, 1, 0])
+
+# centers
+mu1 = np.array([0, 1])
+mu2 = np.array([1, 0])
+
+w = end_to_end(x1, x2, ys, mu1, mu2)
+
+# testing
+print(f"Input:{np.array([0, 0])}, Predicted: {predict_matrix(np.array([0, 0]), w)}")
+print(f"Input:{np.array([0, 1])}, Predicted: {predict_matrix(np.array([0, 1]), w)}")
+print(f"Input:{np.array([1, 0])}, Predicted: {predict_matrix(np.array([1, 0]), w)}")
+print(f"Input:{np.array([1, 1])}, Predicted: {predict_matrix(np.array([1, 1]), w)}")
+
+
+6.Heart attack prediction using MLP
+
+import numpy as np
+import pandas as pd
+from sklearn.neural_network import MLPClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score,classification_report,confusion_matrix
+import matplotlib.pyplot as plt
+
+data = pd.read_csv('heart.csv')
+
+X = data.iloc[:, :-1].values  # Features
+y = data.iloc[:, -1].values   # Labels
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+mlp = MLPClassifier(hidden_layer_sizes=(100, 100), max_iter=1000, random_state=42)
+training_loss = mlp.fit(X_train, y_train).loss_curve_
+
+y_pred = mlp.predict(X_test)
+
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy:", accuracy)
+
+plt.plot(training_loss)
+plt.title("MLP Training Loss Convergence")
+plt.xlabel("Iteration")
+plt.ylabel("Training Loss")
+plt.show()
+
+conf_matrix=confusion_matrix(y_test,y_pred)
+classification_rep=classification_report(y_test,y_pred)
+print("\nConfusion Matrix:")
+print(conf_matrix)
+print("\nClassification Report:")
+print(classification_rep)
+
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```python
