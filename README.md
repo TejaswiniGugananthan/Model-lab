@@ -1,3 +1,45 @@
+{
+    "config": {
+      "chainId": 191602,
+      "homesteadBlock": 0,
+      "eip150Block": 0,
+      "eip155Block": 0,
+      "eip158Block": 0,
+      "byzantiumBlock": 0,
+      "constantinopleBlock": 0,
+      "petersburgBlock": 0,
+      "istanbulBlock": 0,
+      "berlinBlock": 0,
+      "clique": {
+        "period": 5,
+        "epoch": 30000
+      }
+    },
+    "difficulty": "1",
+    "gasLimit": "8000000",
+    "extradata": "  ",
+    "alloc": {
+      "2b7958365d75aD357A2ef63171c38B4Ab343ab5e": { "balance": "3000000000000000000" },
+      "2BB5d26DbdbD228263324823e330fd01C8203F49": { "balance": "3000000000000000000" }
+    }
+}
+
+pragma solidity ^0.8.19;
+contract New{
+   string name;
+   function setName(string memory_name) public{
+        name _name;
+   }
+   function getName() public view returns (string memory)
+   {
+       return name;
+   }
+
+}
+
+
+
+
 2. BLOCKCHAIN IN HEALTHCARE
 
 AIM:
